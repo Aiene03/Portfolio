@@ -1,10 +1,10 @@
 {
   "functions": {
-    "*.php": {
-      "runtime": "vercel-php@0.7.5"
-    }
+    "index.php": { "runtime": "vercel-php@0.7.5" },
+    "process_contact.php": { "runtime": "vercel-php@0.7.5" }
   },
   "routes": [
+    { "src": "/process_contact.php", "dest": "/process_contact.php" },
     { "src": "/(.*)", "dest": "/index.php" }
   ]
 }
