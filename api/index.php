@@ -4,7 +4,7 @@
  * Fully refactored with external assets and OOP approach
  */
 
-require_once 'classes/Project.php';
+require_once __DIR__ . '/../classes/Project.php';
 
 $projects = [
     new Project(

@@ -4,7 +4,7 @@
  * Refactored using OOP approach
  */
 
-require_once 'classes/ContactHandler.php';
+require_once __DIR__ . '/../classes/ContactHandler.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $handler = new ContactHandler($_POST);
