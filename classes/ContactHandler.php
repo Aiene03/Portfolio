@@ -4,7 +4,19 @@
  * Handles contact form validation and processing using OOP
  */
 
-require_once __DIR__ . '/../api/config.php';
+// Load SMTP constants from environment variables (Vercel-friendly)
+if (!defined('SMTP_HOST')) define('SMTP_HOST', getenv('SMTP_HOST') ?: 'smtp.gmail.com');
+if (!defined('SMTP_USER')) define('SMTP_USER', getenv('SMTP_USER') ?: '');
+if (!defined('SMTP_PASS')) define('SMTP_PASS', getenv('SMTP_PASS') ?: '');
+if (!defined('SMTP_PORT')) define('SMTP_PORT', (int)(getenv('SMTP_PORT') ?: 587));
+if (!defined('SMTP_FROM')) define('SMTP_FROM', getenv('SMTP_FROM') ?: (getenv('SMTP_USER') ?: ''));
+if (!defined('SMTP_NAME')) define('SMTP_NAME', getenv('SMTP_NAME') ?: 'Portfolio Contact');
+
+// Backwards-compat: if a config file exists locally, allow it to override env values
+$localConfig = __DIR__ . '/../api/config.php';
+if (file_exists($localConfig)) {
+    require_once $localConfig;
+}
 
 // Manually include PHPMailer if vendor doesn't exist (Manual Installation)
 if (file_exists(__DIR__ . '/../includes/PHPMailer/src/PHPMailer.php')) {
