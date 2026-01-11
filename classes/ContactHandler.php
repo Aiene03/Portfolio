@@ -18,8 +18,12 @@ if (file_exists($localConfig)) {
     require_once $localConfig;
 }
 
-// Manually include PHPMailer if vendor doesn't exist (Manual Installation)
-if (file_exists(__DIR__ . '/../includes/PHPMailer/src/PHPMailer.php')) {
+// Prefer Composer autoloader for PHPMailer
+$composerAutoload = __DIR__ . '/../vendor/autoload.php';
+if (file_exists($composerAutoload)) {
+    require_once $composerAutoload;
+} elseif (file_exists(__DIR__ . '/../includes/PHPMailer/src/PHPMailer.php')) {
+    // Manual fallback (if you vendor PHPMailer yourself)
     require __DIR__ . '/../includes/PHPMailer/src/Exception.php';
     require __DIR__ . '/../includes/PHPMailer/src/PHPMailer.php';
     require __DIR__ . '/../includes/PHPMailer/src/SMTP.php';
