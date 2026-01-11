@@ -90,10 +90,12 @@ class ContactHandler {
         }
 
         // Final fallback: Use native mail if PHPMailer isn't found
+        // Note: native mail() usually won't work on Vercel, but we can still attempt it.
         $to = SMTP_USER;
         $subject = "Portfolio Contact: " . $subjectText;
         $headers = "From: " . SMTP_FROM . "\r\n" . "Reply-To: $email";
-        @mail($to, $subject, $mail->Body, $headers);
+        $body = "Name: $name\nEmail: $email\n\nMessage:\n$messageBody";
+        @mail($to, $subject, $body, $headers);
 
         return true;
     }
@@ -102,16 +104,17 @@ class ContactHandler {
      * Log the submission to a file for persistent record
      */
     private function logSubmission($name, $email, $subject, $message) {
+        // Vercel serverless filesystem is ephemeral; best-effort logging only.
         $logDir = __DIR__ . "/../logs";
         if (!is_dir($logDir)) {
-            mkdir($logDir, 0777, true);
+            @mkdir($logDir, 0777, true);
         }
 
         $logFile = $logDir . "/contacts.txt";
         $timestamp = date("Y-m-d H:i:s");
         $logEntry = "[$timestamp] NAME: $name | EMAIL: $email | SUBJECT: $subject\nMESSAGE: $message\n" . str_repeat("-", 50) . "\n";
 
-        file_put_contents($logFile, $logEntry, FILE_APPEND);
+        @file_put_contents($logFile, $logEntry, FILE_APPEND);
     }
 
     public function getErrors() {

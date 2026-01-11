@@ -170,7 +170,7 @@ $projects = [
             <div class="grid md:grid-cols-3 gap-8">
                 <div class="md:col-span-2">
                     <div class="card p-8">
-                        <form action="process_contact.php" method="POST" class="space-y-6">
+                        <form action="/api/process_contact.php" method="POST" class="space-y-6">
                             <div class="grid md:grid-cols-2 gap-4">
                                 <div class="space-y-2">
                                     <label class="text-sm">Name</label>
